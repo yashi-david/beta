@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .tables{
+            border-collapse: collapse;
+
+        }
+        .tds{
+            width: 150px;
+            height: 50px;
+            text-align: center;
+            border: 1px solid #000;
+
+        }
+    </style>
+    <script src="doCookie.js"></script>
+    <script>
+        window.onload=function () {
+            //var _table=document.getElementsByTagName("table")[0];
+/*            var tr=_table.getElementsByTagName("tr");
+            var delbtn=document.getElementsByTagName("input");*/
+           // console.log(_table);
+            //读取cookie
+            if(getCookie("cart")){
+                var str=getCookie("cart");
+                var arr=eval(str);
+                //console.log(arr.length);
+
+
+                var _table=document.createElement("table");
+                _table.className="tables";
+                document.body.appendChild(_table);
+                for(var i=0;i<arr.length;i++){
+                    //把cokie填充到表格
+                    //console.log(tr[i].children[0]);
+                    var otr=document.createElement("tr");
+                    _table.appendChild(otr);
+
+                    for(var k=0;k<3;k++){
+                        var otd=document.createElement("td");
+                        otd.className="tds";
+                        otr.appendChild(otd);
+                        if(k==0){
+                            otd.innerHTML=arr[i].id;
+                        }
+                        if(k==1){
+                            otd.innerHTML=arr[i].count;
+                        }
+                        if(k==2){
+                            otd.innerHTML ="<input type='button' value='删除'>";
+                        }
+                    }
+
+
+
+             /*       tr[i].children[0].innerHTML=arr[i].id;
+                    tr[i].children[1].innerHTML=arr[i].count;*/
+                }
+            }else{
+                alert("cookie不存在");
+            }
+            var delbtn=document.getElementsByTagName("input");
+            //console.log(arr.length);
+            var n=-1;
+            for(var i=0;i<delbtn.length;i++){
+                delbtn[i].index=i;
+                delbtn[i].onclick=function () {
+                    n++;
+
+                    //1.页面上删除
+                    console.log(_table.children[0]);
+                    _table.removeChild(this.parentNode.parentNode);
+                    //从cookie删除相应的值
+                    //需要修改cart里面字符串的值 并重新复制
+                    //arr.splice(this.index,1);//bug
+
+                    remArr(arr,this.index);
+                    //arr.splice(this.index+1,0,{});
+                    setCookie("cart",JSON.stringify(arr),10);
+                    console.log(JSON.stringify(arr));
+
+                    //console.log(arr);
+                    //alert("ok");
+                }
+            }
+
+            function remArr(arr,n) {
+                arr.splice(n,1);
+                for(var j=0;j<arr.length;j++){
+                    delbtn[j].index=j;
+                }
+            }
+
+        }
+    </script>
+</head>
+<body>
+<!--    <table>
+        <tr>
+            <td></td><td></td><td><input type="button" value="删除"></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td><input type="button" value="删除"></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td><input type="button" value="删除"></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td><input type="button" value="删除"></td>
+        </tr>
+    </table>-->
+</body>
+</html>

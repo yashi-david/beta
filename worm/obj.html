@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            background: #000;
+        }
+        img{
+            opacity: 1;
+        }
+    </style>
+
+
+</head>
+<body>
+</body>
+<script src="common.js"></script>
+<script src="commonFunctions.js"></script>
+<script type="text/javascript">
+    window.onload=function () {
+        var n=Math.ceil(Math.random()*10)+5;
+        var timer=setInterval(function () {
+            for(var i=0;i<n;i++){
+                var t=Math.ceil(Math.random()*30)*1000;
+                //setTimeout(function () {
+                new Worm(t);
+                //},2000);
+            }
+        },10000);
+
+
+    };
+    var step=0.01;
+    function Worm(t) {
+
+        this.init(t);
+        //this.Move();
+    }
+    Worm.prototype.init=function (n) {
+        this.img=document.createElement("img");
+        this.img.src="dust0.png";
+        //this.img.style.backgroundColor=randomColor();
+        this.img.style.backgroundColor="green";
+        this.img.style.borderRadius="50%";
+        this.img.style.width=Math.ceil(Math.random()*20+10)+"px";
+        this.img.style.height=this.img.style.width;
+        this.img.style.position="absolute";
+        this.img.style.left=Math.ceil(Math.random()*(window.innerWidth-200))+"px";
+        this.img.style.top=Math.ceil(Math.random()*(window.innerHeight-200))+"px";
+        document.body.appendChild(this.img);
+        var _this=this;
+
+
+        function fn1() {
+            move1(_this.img,"opacity",0,fn2,50);
+        }
+
+        function fn2() {
+            //console.log(this);
+            move1(_this.img,"opacity",100,fn1,50);
+        }
+        //var t=Math.ceil(Math.random()*10)+5;
+        //console.log(n);
+        setTimeout(function () {
+            fn1();
+            //console.log(n);
+        },n);
+
+        this.img.timer=setInterval(function () {
+            _this.img.style.top=_this.img.offsetTop+step+"px";
+            _this.img.style.left=_this.img.offsetLeft+115-Math.sin((step-100)/200*Math.PI)*235+"px";
+        },500)
+
+    };
+   /* Worm.prototype.move=function(){
+    this.img.style.top=this.img.offsetTop+step+"px";
+        console.log(step);
+    }*/
+
+
+
+
+
+</script>
+</html>
